@@ -36,27 +36,59 @@ class UserController extends Controller
 
     public function edit($id){
         //find user by id from user list $user
-
+        $users = $this->getUserList();
+        $user = '';
+        foreach($users as $u){
+            if($u['id'] == $id){
+                $user = $u;
+                break;
+            }
+        }
         return view('user.edit')->with('user', $user);
     }
 
     public function update(Request $req, $id){
         //craete new user array & add to list
         //new userList
+        $users = $this->getUserList();
+        $user = ['id'=>$req->id, 'name'=>$req->uname, 'email'=>$req->email];
 
+        for($i = 0; $i < count($users) ; $i++){
+            if($users[$i]['id'] == $id){
+                $users[$i] = $user;
+                break;
+            }
+        }
         return view('user.list')->with('userList', $users);
     }
 
-    public function delete( $id){
+    public function delete($id){
         //confirm window
         //find user by id $user
-
+        $users = $this->getUserList();
+        $user = '';
+        foreach($users as $u){
+            if($u['id'] == $id){
+                $user = $u;
+                break;
+            }
+        }
         return view('user.delete')->with('user', $user);
     }
 
     public function destroy($id){
         //remove user form list
         //create new list & display
+
+        $users = $this->getUserList();
+        //$user = ['id'=>"", 'name'=>'', 'email'=>''];
+
+        for($i = 0; $i < count($users) ; $i++){
+            if($users[$i]['id'] == $id){
+                unset($users[$i]);
+                break;
+            }
+        }
 
         return view('user.list')->with('userList', $users);
     }
